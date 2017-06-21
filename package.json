@@ -1,5 +1,5 @@
 {
-  "name": "cron-file-cleaner",
+  "name": "cron-folder-cleaner",
   "version": "1.1.0",
   "description": "Remove old files periodically",
   "main": "index.js",
