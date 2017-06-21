@@ -5,6 +5,7 @@ var EventEmitter  = require('events').EventEmitter;
 var CronJob       = require('cron').CronJob;
 var fs            = require('fs');
 var pathUtil      = require('path');
+var rimraf        = require('rimraf');
 
 /**
  * Shorthand for common intervalls, so you don't need to work with milliseconds
@@ -125,23 +126,11 @@ FileCleaner.prototype.cleanUp = function(){
             return;
           }
           if (
-            stats.isFile() &&
+            stats.isDirectory() &&
             (Date.now() - stats[timeField].getTime()) > maxAge &&
             checkPattern(file, blackList, whiteList)
           ) {
-            fs.unlink(filePath, function (err) {
-              if (err) {
-                self.emit('error', new Error("Can't delete " + filePath));
-                return;
-              }
-              self.emit('delete',{
-                name: file,
-                folder: path,
-                path: filePath
-              });
-            });
-          } else if (stats.isDirectory() && recursive) {
-            worker(filePath);
+            rimraf(filePath);
           }
         });
       });
