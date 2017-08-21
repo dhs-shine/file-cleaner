@@ -130,7 +130,12 @@ FileCleaner.prototype.cleanUp = function(){
             (Date.now() - stats[timeField].getTime()) > maxAge &&
             checkPattern(file, blackList, whiteList)
           ) {
-            rimraf(filePath, function() {
+            rimraf(filePath, function(err) {
+              if (!err) {
+                self.emit('delete',{
+                  folder: filePath
+                });
+              }
             });
           }
         });
