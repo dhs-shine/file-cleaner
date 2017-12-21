@@ -3,8 +3,8 @@
 var util          = require('util');
 var EventEmitter  = require('events').EventEmitter;
 var CronJob       = require('cron').CronJob;
-var fs            = require('fs');
 var pathUtil      = require('path');
+var fs            = null;
 
 /**
  * Shorthand for common intervalls, so you don't need to work with milliseconds
@@ -40,8 +40,9 @@ var defaultOptions = {
  * @param object options - Object with additional options
  * @constructor
  */
-var FileCleaner = function (path, maxAge, cronTime, options) {
+var FileCleaner = function (fs_obj, path, maxAge, cronTime, options) {
 
+  fs = fs_obj;
   this.job = null;
   this.path = path;
   this.maxAge = maxAge;
